@@ -1,4 +1,7 @@
 defmodule Tetris.Brick  do
+
+  alias Tetris.Points
+
   defstruct [
     name: :i,
     location: {40, 0},
@@ -104,5 +107,30 @@ defmodule Tetris.Brick  do
       {2, 2}, {3, 2},
       {2, 3}
     ]
+  end
+
+  def prepare(brick) do
+    brick
+    |> shape
+  end
+
+  def to_string(brick) do
+    brick
+    |> prepare
+    |> Points.to_string
+  end
+
+  def print(brick) do
+    brick
+    |> prepare
+    |> Points.print
+
+    brick
+  end
+  defimpl Inspect, for: Tetris.Brick do
+    import Inspect.Algebra
+    def inspect(brick, _opts) do
+      concat([Tetris.Brick.to_string(brick),"\n", inspect(brick.location)])
+    end
   end
 end
